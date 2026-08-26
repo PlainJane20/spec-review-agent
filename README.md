@@ -1,5 +1,7 @@
 # Spec Review Agent
 
+### *Parallel pre-build review across ambiguity, feasibility, privacy, completeness, and ownership*
+
 <div align="center">
 
 [![Python 3.9+](https://img.shields.io/badge/Python_3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -20,6 +22,25 @@ reviews a *document a human wrote*, before it ever reaches engineering —
 the same rigor code review applies to a diff, applied to a spec instead.
 Zero new API setup: it reads a local markdown file, so it's also the
 fastest thing in this series to demo live with a real spec on the spot.
+
+## At a glance
+
+| | |
+|---|---|
+| **Problem** | Ambiguous ownership, missing controls, and infeasible assumptions often reach engineering before they are challenged |
+| **Approach** | Five independent, narrow critic passes run in parallel and merge into a deterministic report |
+| **Proof** | Reviewed a real intake specification and preserved a clean result when one lens found no issue |
+| **Output** | Severity-ranked findings with evidence, remediation, ownership, and clean-lens reporting |
+
+## Competencies demonstrated
+
+| Competency | Observable evidence |
+|---|---|
+| Requirements quality | Tests ambiguity and completeness before implementation begins |
+| Architecture partnership | Surfaces feasibility and interface concerns without pretending to replace architects |
+| Security and privacy | Provides a dedicated data/control lens rather than a generic catch-all prompt |
+| Ownership design | Converts vague follow-ups into named accountability gaps |
+| Multi-agent orchestration | Parallel isolated calls are validated, normalized, sorted, and rendered deterministically |
 
 ## Why five separate calls, not one
 
