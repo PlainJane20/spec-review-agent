@@ -1,3 +1,5 @@
+<img src="docs/spec-review-agent-banner.svg" alt="Spec Review Agent — Multi-Agent Requirements Quality" width="100%" />
+
 # Spec Review Agent
 
 ### *Parallel pre-build review across ambiguity, feasibility, privacy, completeness, and ownership*
