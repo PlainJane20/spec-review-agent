@@ -25,15 +25,14 @@ the same rigor code review applies to a diff, applied to a spec instead.
 Zero new API setup: it reads a local markdown file, so it's also the
 fastest thing in this series to demo live with a real spec on the spot.
 
-> **Honest note on positioning:** AI code review has real, named, funded
-> incumbents (CodeRabbit, Graphite, and others). AI *spec/PRD* review
-> specifically as a standalone, multi-lens tool doesn't have an
-> equally obvious set of dedicated competitors — but that's based on
-> what turned up in a broader market pass, not a dedicated search for
-> this exact niche, so treat "possibly under-served" as a hunch worth
-> testing further, not a verified claim. Built here primarily as a
-> self-learning exercise in running independent, narrow-scoped critic
-> agents in parallel rather than one do-everything prompt.
+> **The competency this is really practicing:** running independent,
+> narrow-scoped critic agents in parallel and merging their findings
+> deterministically, rather than one do-everything prompt. AI code
+> review has real, named, funded incumbents (CodeRabbit, Graphite, and
+> others); AI *spec/PRD* review specifically as a standalone, multi-lens
+> tool didn't turn up an equally obvious set of dedicated competitors in
+> a broader market pass — though that's a hunch worth testing further,
+> not a dedicated search of this exact niche.
 
 ## At a glance
 
