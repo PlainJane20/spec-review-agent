@@ -34,6 +34,22 @@ fastest thing in this series to demo live with a real spec on the spot.
 > a broader market pass — though that's a hunch worth testing further,
 > not a dedicated search of this exact niche.
 
+> **Related work in this portfolio:** not a connected pipeline with
+> anything else here — this is the only agent in the series reviewing a
+> static document instead of live operational data. The real link is a
+> shared bug, not a shared pipeline:
+> [incident-postmortem-agent](https://github.com/PlainJane20/incident-postmortem-agent)
+> hit the exact same "a forced tool-call schema doesn't guarantee the
+> model actually populates every required field" failure described below
+> — the 4th time it's shown up in this portfolio, after this repo and
+> [exec-status-rollup](https://github.com/PlainJane20/exec-status-rollup)
+> and [slack-daily-brief](https://github.com/PlainJane20/slack-daily-brief).
+> [agent-control-tower](https://github.com/PlainJane20/agent-control-tower)'s
+> cost/audit hook in the architecture diagram below is a real, optional
+> integration point, not vaporware — but the two agents it's actually
+> retrofitted onto live are exec-status-rollup and slack-daily-brief, not
+> this one.
+
 ## At a glance
 
 | | |
