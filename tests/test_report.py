@@ -49,3 +49,28 @@ def test_by_lens_summary_lists_every_lens_even_when_clean():
     report = render_report(findings, "spec.md")
     assert "**Lens B**: clean" in report
     assert "**Lens A**: 1 finding(s)" in report
+
+
+def test_unknown_severity_does_not_crash_and_sorts_last():
+    findings = [{"id": "a", "label": "Lens A", "findings": [
+        finding("critical", "weird issue"), finding("minor", "minor issue"), finding("blocker", "blocker issue")]}]
+    report = render_report(findings, "spec.md")
+    assert "[UNKNOWN] weird issue" in report
+    assert report.index("blocker issue") < report.index("minor issue") < report.index("weird issue")
+    assert "1 with unrecognized severity" in report
+
+
+def test_missing_or_non_string_severity_is_unknown():
+    bad = {"issue": "no sev", "section": "s", "why_it_matters": "w", "suggested_fix": "f"}
+    report = render_report([{"id": "a", "label": "L", "findings": [bad, finding(None, "none sev")]}], "spec.md")
+    assert "[UNKNOWN] no sev" in report and "[UNKNOWN] none sev" in report
+
+
+def test_severity_case_and_whitespace_normalized():
+    report = render_report([{"id": "a", "label": "L", "findings": [finding(" Blocker ")]}], "spec.md")
+    assert "1 blocker(s)" in report
+
+
+def test_missing_fields_and_non_dict_findings_do_not_crash():
+    report = render_report([{"id": "a", "label": "L", "findings": [{"severity": "major"}, "junk"]}], "spec.md")
+    assert "(missing)" in report and "1 blocker(s) · 0 major" not in report and "0 blocker(s) · 1 major" in report
