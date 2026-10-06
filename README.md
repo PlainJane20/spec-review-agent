@@ -9,7 +9,7 @@
 [![Python 3.9+](https://img.shields.io/badge/Python_3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Powered by Claude](https://img.shields.io/badge/Powered_by-Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white)](https://www.anthropic.com/)
 [![5 Critic Lenses](https://img.shields.io/badge/Review_lenses-5_independent-1baf7a?style=for-the-badge)](critics.py)
-[![Tests](https://img.shields.io/badge/Unit_tests-6_passing-2a78d6?style=for-the-badge)](tests/)
+[![Tests](https://img.shields.io/badge/Unit_tests-10_passing-2a78d6?style=for-the-badge)](tests/)
 
 </div>
 
@@ -57,7 +57,7 @@ fastest thing in this series to demo live with a real spec on the spot.
 | **Problem** | Ambiguous ownership, missing controls, and infeasible assumptions often reach engineering before they are challenged |
 | **Approach** | Five independent, narrow critic passes run in parallel and merge into a deterministic report |
 | **Proof** | Reviewed a real intake specification and preserved a clean result when one lens found no issue |
-| **Output** | Severity-ranked findings with evidence, remediation, ownership, and clean-lens reporting |
+| **Output** | Severity-ranked findings (section, issue, why it matters, suggested fix) with clean-lens reporting |
 
 ## Competencies demonstrated
 
@@ -67,7 +67,7 @@ fastest thing in this series to demo live with a real spec on the spot.
 | Architecture partnership | Surfaces feasibility and interface concerns without pretending to replace architects |
 | Security and privacy | Provides a dedicated data/control lens rather than a generic catch-all prompt |
 | Ownership design | Converts vague follow-ups into named accountability gaps |
-| Multi-agent orchestration | Parallel isolated calls are validated, normalized, sorted, and rendered deterministically |
+| Multi-agent orchestration | Parallel isolated calls; missing/malformed output is defaulted (`.get` plus a list check), then findings are sorted and rendered deterministically |
 
 ## Why five separate calls, not one
 
@@ -76,9 +76,10 @@ every category shallowly instead of going deep on any one. Each critic here
 gets a narrow, single-purpose system prompt and is explicitly told to
 ignore everything outside its lens — the ambiguity critic is told not to
 comment on missing sections, the completeness critic is told not to
-critique the quality of sections that already exist. Five focused passes,
-run in parallel via `ThreadPoolExecutor`, catch more real issues than one
-generalist pass over the same document.
+critique the quality of sections that already exist. Five focused passes
+run in parallel via `ThreadPoolExecutor`. The design hypothesis is that
+narrow passes go deeper than one generalist pass; **this has not been
+measured** (see Known limitations).
 
 ## Real output, against a real document
 
@@ -101,9 +102,35 @@ the model actually populates it. One critic here — the one with genuinely
 nothing to report — omitted the `findings` key from its tool call entirely
 instead of returning an empty array, which crashed a `dict["findings"]`
 lookup with a `KeyError`. Fixed with `.get("findings", [])` plus a type
-check, and it now correctly renders as "clean" instead of crashing. Three
+check, and it now correctly renders as "clean" instead of crashing. (The
+renderer likewise tolerates a severity outside the enum: it is shown as
+`unknown` and sorted last, covered by unit tests.) Three
 data points is a pattern: **never trust a forced-schema field to be present
 just because the schema said it must be** — validate it every time.
+
+## Known limitations
+
+- **No eval of the critics.** The unit tests (`tests/test_report.py`)
+  cover only the deterministic report rendering. Nothing measures whether
+  the critics find real issues, miss them, or produce false positives.
+- **"Five passes beat one" is unmeasured.** There has been no comparison
+  against a single generalist pass; the claim is a design hypothesis.
+- **One real-document demo.** The only evidence is the single review in
+  `sample_specs/` (one spec, one run); it shows the pipeline works, not
+  how accurate it is.
+- **Findings carry no evidence field.** Each finding has severity,
+  section, issue, why it matters, and a suggested fix. There is no quoted
+  excerpt, and the `section` reference is model-generated and not checked
+  against the spec.
+- **Validation is shallow.** Output is a forced tool call; the code
+  defaults a missing `findings` key, checks it is a list, and the report
+  tolerates unknown severities and missing fields. It does not validate
+  finding contents beyond that.
+- **Failures can look like "clean".** If a critic returns no tool call,
+  its result is an empty findings list, indistinguishable from a lens that
+  genuinely found nothing.
+- **Not tested offline end to end.** The Claude calls are not mocked in
+  tests.
 
 ## Architecture
 
