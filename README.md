@@ -56,8 +56,17 @@ fastest thing in this series to demo live with a real spec on the spot.
 |---|---|
 | **Problem** | Ambiguous ownership, missing controls, and infeasible assumptions often reach engineering before they are challenged |
 | **Approach** | Five independent, narrow critic passes run in parallel and merge into a deterministic report |
+| **Pattern** | Orchestrator-Worker: static parallel fan-out to five critic calls, deterministic merge (see [Architecture pattern](#architecture-pattern)) |
 | **Proof** | Reviewed a real intake specification and preserved a clean result when one lens found no issue |
 | **Output** | Severity-ranked findings (section, issue, why it matters, suggested fix) with clean-lens reporting |
+
+## Architecture pattern
+
+**Orchestrator-Worker (static fan-out, deterministic merge).** `reviewer.review_spec` (`reviewer.py`) submits the same spec to five hard-coded critic lenses (`critics.py`) on a `ThreadPoolExecutor`, one forced-tool Claude call each. `report.render_report` (`report.py`) then merges and sorts the findings in plain Python.
+
+- **Deterministic vs model-driven:** The fan-out, the output schema check, the severity sort and the report are deterministic. Only the findings inside each lens are model-generated, and there is no model-based orchestrator or synthesis step.
+- **Human gate:** None in the tool. It writes a report for a person to read and acts on nothing.
+- **Honest limit:** The critics are single-shot calls that never see each other's output, so nothing is cross-checked or reconciled between lenses (for example duplicates or contradictions), and there is no loop or tool use beyond the forced findings schema.
 
 ## Competencies demonstrated
 
