@@ -10,6 +10,8 @@
 [![Powered by Claude](https://img.shields.io/badge/Powered_by-Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white)](https://www.anthropic.com/)
 [![5 Critic Lenses](https://img.shields.io/badge/Review_lenses-5_independent-1baf7a?style=for-the-badge)](critics.py)
 [![Tests](https://img.shields.io/badge/Unit_tests-10_passing-2a78d6?style=for-the-badge)](tests/)
+[![CI](https://img.shields.io/github/actions/workflow/status/PlainJane20/spec-review-agent/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/PlainJane20/spec-review-agent/actions/workflows/ci.yml)
+[![MIT License](https://img.shields.io/badge/License-MIT-6b7280?style=for-the-badge)](LICENSE)
 
 </div>
 
@@ -173,6 +175,10 @@ python run_review.py path/to/spec.md
 python run_review.py path/to/spec.md --out review.md
 python run_review.py path/to/spec.md --daily-budget 1.00   # via agent-control-tower if present
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ## Contact
 
